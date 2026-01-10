@@ -1,0 +1,74 @@
+----------------Git------------------
+----------------Basic And Advance----
+ --- Install ---
+  sudo apt-get install git
+--- Check Git Version -----
+  git --version or git -v
+------Create new Directory -----
+  mkdir Git-practice
+------ go to the Git-practice --
+  cd Git-practice
+ -- Then run the Command --
+   git init # git init initializes a new Git repository by creating a .git directory to track project changes.
+   -- Create a file like this --
+   echo "Hello I am anuj Singh" > anuj.txt
+   ls #this commamd shows how many files present in this directory.
+----- Configure Your Identity ---
+  git config --global user.name "Anuj" # "please write your github username".
+git config --global user.email "anuj@example.com"
+---- for checking the Config ----
+ git config --global --list
+
+
+
+---- For checking Status ----
+  git status
+
+---- For adding the File into staging area ----
+  git add  anuj.txt
+------- For Commit Changes ----
+  git commit -m " 1st commit" # "-m ka use commit message directly command line se dene ke liye hota hai."
+---------- Connect to Remote Repository (GitHub) ---------
+ Go to the Github account Create one Repo in your account.
+ Then come to the terminal
+ git remote add origin https://github.com/username/repo-name.git # " In this command you use your link repo. 
+  ---- For verify ---
+  git remote -v
+--------- Push Code to GitHub -----
+ git push -u origin main
+
+
+
+----------------- Summary Or Daily Git Workflow (MOST USED) ----------
+git pull
+git status
+git add .
+git commit -m "message"
+git push
+
+
+
+ ----------------- Intermediate --------------------------
+
+
+
+ ---------- For creating Branch ------
+
+   git branch Dev  Or # "here Dev is branch creating"
+ 
+ --------------- For  checking the branch -------
+ git branch
+ ---------- Branch switch karna -----
+ git checkout Master Or git switch Master # " if you want to switch branch Dev to master you can this command"
+
+git checkout -b testing # "This command create branch and also switch to that Branch"
+
+----- Golden Rule * Kaam karne se pehle branch check karo -- please check the branch whenever you start working.
+------------ For History clean ----------------
+git checkout Dev
+git rebase master
+
+-------- Copy remote repo to local system ------
+git clone https://github.com/user/project.git -- # you use your link --"
+
+

@@ -1,1 +1,6 @@
 Hello from feature branch
+<<<<<<< HEAD
+=======
+Hi anuj singh
+shri Ram Ram
+>>>>>>> d6ba4fb (2nd commit)
