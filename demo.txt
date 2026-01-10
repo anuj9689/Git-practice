@@ -4,3 +4,5 @@ Hello from feature branch
 Hi anuj singh
 shri Ram Ram
 >>>>>>> d6ba4fb (2nd commit)
+
+Delete demo.txt
