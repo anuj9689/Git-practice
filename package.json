@@ -1,0 +1,21 @@
+{
+  "name": "git_practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "test": "echo \"Tests passed\"",
+  "build": "echo \"Build successful\""
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anuj9689/Git-practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anuj9689/Git-practice/issues"
+  },
+  "homepage": "https://github.com/anuj9689/Git-practice#readme"
+}
