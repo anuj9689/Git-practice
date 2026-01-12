@@ -1,0 +1,19 @@
+name: Simple CI workflow
+on:
+    push:
+        branches: 
+            - main
+
+Jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            
+            - name: Print message
+              run: echo "hello I am Anuj singh"
+            
+            - name: Check node Version
+              run: node --version
