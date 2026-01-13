@@ -17,6 +17,22 @@ jobs:
             
             - name: Check node Version
               run: node --version
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: '18'
+
+            - name: Cache node modules
+              uses: actions/cache@v4
+              with: 
+                path: node_modules
+                key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+                restore-keys: |
+                   ${{ runner.os }}-node-
+
+        
+                 
             
             - name: Install dependencies
               run: npm install
@@ -26,3 +42,7 @@ jobs:
             
             - name: Build project
               run: npm run build
+
+            - name: Build Docker image
+              run: docker build -t my-node-app:latest .
+
