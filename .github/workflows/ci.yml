@@ -1,73 +1,68 @@
-name: Simple CI workflow
+name: Github CI workflow
+
 on:
-    push:
-        branches: 
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-            
-            - name: Print message
-              run: echo "hello I am Anuj singh"
-            
-            - name: Check node Version
-              run: node --version
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                node-version: '18'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-            - name: Cache node modules
-              uses: actions/cache@v4
-              with: 
-                path: node_modules
-                key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-                restore-keys: |
-                   ${{ runner.os }}-node-
+      - name: Check Node version
+        run: node --version
 
-        
-                 
-            
-            - name: Install dependencies
-              run: npm install
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-            - name: Run Tests
-              run: npm test
-            
-            - name: Build project
-              run: npm run build
+      - name: Install dependencies
+        run: npm install
 
-            - name: Login to Dockerhub
-              uses: docker/login-action@v3
-              with:
-                username: ${{secrets.DOCKERHUB_USERNAME}}
-                password: ${{secrets.DOCKERHUB_TOKEN}}
+      - name: Run Tests
+        run: npm test
 
-            - name: Build Docker image
-              run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest .
-            
-            - name: Push Docker image
-              run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest
-      deploy:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Deploy to EC2
-              uses: appleboy/ssh-action@v1.0.0
-              with:
-                hosts: ${{ secrets.EC2_HOST }}
-                username: ${{ secrets.EC2_USER }}
-                key: ${{ secrets.EC2_SSH_KEY }}
-                script: |
-                    docker pull ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest
-                    docker stop myapp || true
-                    docker rm myapp || true
-                    docker run -d --name myapp -p 80:3000 ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest
-              
+      - name: Build project
+        run: npm run build
 
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest .
+
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest
+            docker stop myapp || true
+            docker rm myapp || true
+            docker run -d --name myapp -p 80:3000 ${{ secrets.DOCKERHUB_USERNAME }}/my-node-app:latest
